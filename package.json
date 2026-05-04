@@ -1,0 +1,37 @@
+{
+  "name": "restaurant-erp-v306-report-comparison-kpis",
+  "version": "1.0.6",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "supabase:start": "supabase start",
+    "supabase:status": "supabase status",
+    "supabase:reset": "supabase db reset",
+    "supabase:functions:serve": "supabase functions serve --env-file .env.local",
+    "build:quick": "tsc -b --pretty false",
+    "build:strict": "tsc -b && vite build",
+    "typecheck": "tsc -b --pretty false",
+    "qa:v300": "echo Run v300 final release candidate QA from Enterprise Command module",
+    "qa:v301": "echo Run v301 Supabase cutover QA from Backend Cutover module",
+    "qa:v302": "echo Run v302 user creation and linked employee QA from Users and Employees module",
+    "qa:v303": "echo Review v303 executive dashboard: load trial scenario and verify finance, POS, inventory, purchasing, production, HR, and control KPIs",
+    "qa:v304": "echo Review v304: Smart Analysis custom periods/colors plus Setup category dropdown/category library",
+    "qa:v305": "echo Review v305: Smart Analysis visual polish, readable KPI text hierarchy, and balanced graph formatting",
+    "qa:v306": "echo Review v306: Foodics-style Smart Analysis sidebar, comparison packs, hourly/payment/product KPIs, and platform-wide finance/inventory/purchasing/production comparison"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "6.0.1",
+    "vite": "8.0.10",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "lucide-react": "1.14.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.8.3"
+  }
+}
