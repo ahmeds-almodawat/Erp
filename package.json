@@ -1,6 +1,6 @@
 {
-  "name": "restaurant-erp-v319-v322-operational-backend-cutover",
-  "version": "1.0.22",
+  "name": "restaurant-erp-v323-v328-finance-enterprise-backend",
+  "version": "1.0.28",
   "private": true,
   "type": "module",
   "scripts": {
@@ -29,7 +29,9 @@
     "qa:local": "npm run qa:domain && npm run typecheck && npm run build",
     "qa:v317": "echo Review v317: master data backend cutover validation, templates, migration, and service foundation",
     "qa:v318": "echo Review v318: inventory stock ledger, balances, adjustments, counts, lot tracking, and posting RPC foundation",
-    "qa:v319-v322": "echo Review v319-v322: purchasing, sales/POS, production, and operational posting bridge backend foundations"
+    "qa:v319-v322": "echo Review v319-v322: purchasing, sales/POS, production, and operational posting bridge backend foundations",
+    "qa:v323-v328": "node --experimental-strip-types --import ./scripts/register-ts-extension-loader.mjs scripts/qa-v323-v328-finance.mjs",
+    "qa:finance-enterprise": "npm run qa:v323-v328"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.1",
