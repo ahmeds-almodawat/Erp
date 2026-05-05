@@ -1,6 +1,6 @@
 {
-  "name": "restaurant-erp-v317-master-data-cutover",
-  "version": "1.0.17",
+  "name": "restaurant-erp-v318-inventory-stock-ledger-cutover",
+  "version": "1.0.18",
   "private": true,
   "type": "module",
   "scripts": {
@@ -27,7 +27,8 @@
     "qa:v313:domain": "node --experimental-strip-types --import ./scripts/register-ts-extension-loader.mjs scripts/qa-v312-v313.mjs",
     "qa:domain": "npm run qa:v311:domain && npm run qa:v313:domain",
     "qa:local": "npm run qa:domain && npm run typecheck && npm run build",
-    "qa:v317": "echo Review v317: master data backend cutover validation, templates, migration, and service foundation"
+    "qa:v317": "echo Review v317: master data backend cutover validation, templates, migration, and service foundation",
+    "qa:v318": "echo Review v318: inventory stock ledger, balances, adjustments, counts, lot tracking, and posting RPC foundation"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.1",
