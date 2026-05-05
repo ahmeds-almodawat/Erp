@@ -1,6 +1,6 @@
 {
-  "name": "restaurant-erp-v313-reporting-truth",
-  "version": "1.0.13",
+  "name": "restaurant-erp-v317-master-data-cutover",
+  "version": "1.0.17",
   "private": true,
   "type": "module",
   "scripts": {
@@ -26,7 +26,8 @@
     "qa:v313": "echo Review v313: Reports truth layer panel plus reporting score, sources, findings, and backend snapshot readiness",
     "qa:v313:domain": "node --experimental-strip-types --import ./scripts/register-ts-extension-loader.mjs scripts/qa-v312-v313.mjs",
     "qa:domain": "npm run qa:v311:domain && npm run qa:v313:domain",
-    "qa:local": "npm run qa:domain && npm run typecheck && npm run build"
+    "qa:local": "npm run qa:domain && npm run typecheck && npm run build",
+    "qa:v317": "echo Review v317: master data backend cutover validation, templates, migration, and service foundation"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.1",
