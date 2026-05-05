@@ -1,6 +1,6 @@
 {
-  "name": "restaurant-erp-v335-v339-master-data-gl-live-cutover",
-  "version": "1.0.39",
+  "name": "restaurant-erp-v340-v344-inventory-purchasing-live-posting",
+  "version": "1.0.44",
   "private": true,
   "type": "module",
   "scripts": {
@@ -33,8 +33,9 @@
     "qa:v323-v328": "node --experimental-strip-types --import ./scripts/register-ts-extension-loader.mjs scripts/qa-v323-v328-finance.mjs",
     "qa:finance-enterprise": "npm run qa:v323-v328",
     "qa:v329-v334": "node scripts/qa-v329-v334.mjs",
-    "qa:all": "npm run qa:domain && npm run qa:v323-v328 && npm run qa:v329-v334 && npm run qa:v335-v339 && npm run typecheck && npm run build",
-    "qa:v335-v339": "node scripts/qa-v335-v339.mjs"
+    "qa:all": "npm run qa:domain && npm run qa:v323-v328 && npm run qa:v329-v334 && npm run qa:v335-v339 && npm run qa:v340-v344 && npm run typecheck && npm run build",
+    "qa:v335-v339": "node scripts/qa-v335-v339.mjs",
+    "qa:v340-v344": "node scripts/qa-v340-v344.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
