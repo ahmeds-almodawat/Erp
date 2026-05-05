@@ -29,7 +29,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 const id = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
 
 function exportCsv(name: string, rows: Record<string, any>[]) {
-  const headers = Array.from(rows.reduce((set, row) => { Object.keys(row).forEach((k) => set.add(k)); return set; }, new Set<string>()));
+  const headers = Array.from(rows.reduce<Set<string>>((set, row) => { Object.keys(row).forEach((k) => set.add(k)); return set; }, new Set<string>()));
   const escape = (v: any) => `"${String(v ?? '').replace(/"/g, '""')}"`;
   const csv = [headers.join(','), ...rows.map((row) => headers.map((h) => escape(row[h])).join(','))].join('\n');
   const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });

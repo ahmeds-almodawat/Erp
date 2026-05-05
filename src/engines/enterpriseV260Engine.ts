@@ -249,7 +249,7 @@ export function buildV260BackendPlan() {
 
 export function rowsToCsv(rows: any[]) {
   if (!rows.length) return '';
-  const headers = Array.from(rows.reduce((set, row) => {
+  const headers = Array.from(rows.reduce<Set<string>>((set, row) => {
     Object.keys(row || {}).forEach((key) => set.add(key));
     return set;
   }, new Set<string>()));

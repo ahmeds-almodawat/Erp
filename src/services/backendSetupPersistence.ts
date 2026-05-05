@@ -65,10 +65,10 @@ export function validateSetupForBackend(state: any) {
   const duplicateBranchCodes = branches.length - uniqCount(branches, 'code');
   const duplicateStoreCodes = stores.length - uniqCount(stores, 'code');
   const duplicateAccountCodes = chartAccounts.length - uniqCount(chartAccounts, 'code');
-  const orphanStores = stores.filter((store) => store.branchId !== 'main' && !branches.some((branch) => branch.id === store.branchId)).length;
-  const suppliersMissingCompliance = suppliers.filter((supplier) => !supplier.vatNo || !supplier.bankName || !supplier.bankAccount).length;
-  const itemsMissingUnit = items.filter((item) => !item.purchaseUnit || !item.consumptionUnit).length;
-  const costCentersMissingBranch = costCenters.filter((cc) => cc.branchId !== 'company' && !branches.some((branch) => branch.id === cc.branchId)).length;
+  const orphanStores = stores.filter((store: any) => store.branchId !== 'main' && !branches.some((branch: any) => branch.id === store.branchId)).length;
+  const suppliersMissingCompliance = suppliers.filter((supplier: any) => !supplier.vatNo || !supplier.bankName || !supplier.bankAccount).length;
+  const itemsMissingUnit = items.filter((item: any) => !item.purchaseUnit || !item.consumptionUnit).length;
+  const costCentersMissingBranch = costCenters.filter((cc: any) => cc.branchId !== 'company' && !branches.some((branch: any) => branch.id === cc.branchId)).length;
   const rows = [
     { area: 'Branches', control: 'Unique branch code', count: duplicateBranchCodes, status: duplicateBranchCodes ? 'Blocker' : 'Ready' },
     { area: 'Stores', control: 'Unique store code', count: duplicateStoreCodes, status: duplicateStoreCodes ? 'Blocker' : 'Ready' },

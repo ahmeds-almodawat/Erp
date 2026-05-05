@@ -208,7 +208,7 @@ export function buildV240PilotReports(snapshot: ReturnType<typeof buildV240Snaps
 
 export function rowsToCsv(rows: Record<string, any>[]) {
   if (!rows.length) return '';
-  const headers = Array.from(rows.reduce((set, row) => { Object.keys(row).forEach((key) => set.add(key)); return set; }, new Set<string>()));
+  const headers = Array.from(rows.reduce<Set<string>>((set, row) => { Object.keys(row).forEach((key) => set.add(key)); return set; }, new Set<string>()));
   const escape = (value: any) => `"${String(value ?? '').replace(/"/g, '""')}"`;
   return [headers.join(','), ...rows.map((row) => headers.map((h) => escape(row[h])).join(','))].join('\n');
 }

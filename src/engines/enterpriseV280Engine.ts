@@ -6,7 +6,7 @@ const round = (value: number) => Math.round((value + Number.EPSILON) * 100) / 10
 
 export function rowsToCsv(rows: Array<Record<string, any>>) {
   if (!rows.length) return '';
-  const headers = Array.from(rows.reduce((set, row) => { Object.keys(row || {}).forEach((key) => set.add(key)); return set; }, new Set<string>()));
+  const headers = Array.from(rows.reduce<Set<string>>((set, row) => { Object.keys(row || {}).forEach((key) => set.add(key)); return set; }, new Set<string>()));
   const esc = (value: unknown) => {
     const text = String(value ?? '');
     return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
