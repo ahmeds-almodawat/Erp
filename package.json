@@ -1,6 +1,6 @@
 {
-  "name": "restaurant-erp-v323-v328-finance-enterprise-backend",
-  "version": "1.0.28",
+  "name": "restaurant-erp-v329-v334-enterprise-real-backend-gate",
+  "version": "1.0.34",
   "private": true,
   "type": "module",
   "scripts": {
@@ -31,14 +31,17 @@
     "qa:v318": "echo Review v318: inventory stock ledger, balances, adjustments, counts, lot tracking, and posting RPC foundation",
     "qa:v319-v322": "echo Review v319-v322: purchasing, sales/POS, production, and operational posting bridge backend foundations",
     "qa:v323-v328": "node --experimental-strip-types --import ./scripts/register-ts-extension-loader.mjs scripts/qa-v323-v328-finance.mjs",
-    "qa:finance-enterprise": "npm run qa:v323-v328"
+    "qa:finance-enterprise": "npm run qa:v323-v328",
+    "qa:v329-v334": "node scripts/qa-v329-v334.mjs",
+    "qa:all": "npm run qa:domain && npm run qa:v323-v328 && npm run qa:v329-v334 && npm run typecheck && npm run build"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.105.3",
     "@vitejs/plugin-react": "6.0.1",
-    "vite": "8.0.10",
+    "lucide-react": "1.14.0",
     "react": "19.2.5",
     "react-dom": "19.2.5",
-    "lucide-react": "1.14.0"
+    "vite": "8.0.10"
   },
   "devDependencies": {
     "@types/react": "19.2.14",
