@@ -1,6 +1,6 @@
 {
-  "name": "restaurant-erp-v318-inventory-stock-ledger-cutover",
-  "version": "1.0.18",
+  "name": "restaurant-erp-v319-v322-operational-backend-cutover",
+  "version": "1.0.22",
   "private": true,
   "type": "module",
   "scripts": {
@@ -28,7 +28,8 @@
     "qa:domain": "npm run qa:v311:domain && npm run qa:v313:domain",
     "qa:local": "npm run qa:domain && npm run typecheck && npm run build",
     "qa:v317": "echo Review v317: master data backend cutover validation, templates, migration, and service foundation",
-    "qa:v318": "echo Review v318: inventory stock ledger, balances, adjustments, counts, lot tracking, and posting RPC foundation"
+    "qa:v318": "echo Review v318: inventory stock ledger, balances, adjustments, counts, lot tracking, and posting RPC foundation",
+    "qa:v319-v322": "echo Review v319-v322: purchasing, sales/POS, production, and operational posting bridge backend foundations"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.1",
