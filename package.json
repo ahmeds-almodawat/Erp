@@ -1,6 +1,6 @@
 {
-  "name": "restaurant-erp-v349-v351-bank-vat-period-close-live",
-  "version": "1.0.51",
+  "name": "restaurant-erp-v352-v360-enterprise-ui-observability-go-live",
+  "version": "1.0.60",
   "private": true,
   "type": "module",
   "scripts": {
@@ -33,11 +33,12 @@
     "qa:v323-v328": "node --experimental-strip-types --import ./scripts/register-ts-extension-loader.mjs scripts/qa-v323-v328-finance.mjs",
     "qa:finance-enterprise": "npm run qa:v323-v328",
     "qa:v329-v334": "node scripts/qa-v329-v334.mjs",
-    "qa:all": "npm run qa:domain && npm run qa:v323-v328 && npm run qa:v329-v334 && npm run qa:v335-v339 && npm run qa:v340-v344 && npm run qa:v345-v348 && npm run qa:v349-v351 && npm run typecheck && npm run build",
+    "qa:all": "npm run qa:domain && npm run qa:v323-v328 && npm run qa:v329-v334 && npm run qa:v335-v339 && npm run qa:v340-v344 && npm run qa:v345-v348 && npm run qa:v349-v351 && npm run qa:v352-v360 && npm run typecheck && npm run build",
     "qa:v335-v339": "node scripts/qa-v335-v339.mjs",
     "qa:v340-v344": "node scripts/qa-v340-v344.mjs",
     "qa:v345-v348": "node scripts/qa-v345-v348.mjs",
-    "qa:v349-v351": "node scripts/qa-v349-v351.mjs"
+    "qa:v349-v351": "node scripts/qa-v349-v351.mjs",
+    "qa:v352-v360": "node scripts/qa-v352-v360.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
