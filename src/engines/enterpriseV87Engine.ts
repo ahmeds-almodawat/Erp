@@ -167,7 +167,7 @@ export function buildV87ActionPlan(state: any, totals: any) {
 }
 
 export function makeCsv(name: string, rows: Record<string, unknown>[]) {
-  const headers = Array.from(rows.reduce((set, row) => {
+  const headers = Array.from(rows.reduce<Set<string>>((set, row) => {
     Object.keys(row).forEach((key) => set.add(key));
     return set;
   }, new Set<string>()));

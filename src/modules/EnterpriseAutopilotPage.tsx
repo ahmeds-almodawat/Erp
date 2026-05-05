@@ -31,7 +31,7 @@ function money(value: number, locale: Locale) {
 }
 function exportCsv(fileName: string, rows: Record<string, any>[]) {
   const safeRows = rows.length ? rows : [{ note: 'No rows' }];
-  const headers = Array.from(safeRows.reduce((set, row) => { Object.keys(row).forEach((key) => set.add(key)); return set; }, new Set<string>()));
+  const headers = Array.from(safeRows.reduce<Set<string>>((set, row) => { Object.keys(row).forEach((key) => set.add(key)); return set; }, new Set<string>()));
   const esc = (value: any) => `"${String(value ?? '').replace(/"/g, '""')}"`;
   const csv = [headers.join(','), ...safeRows.map((row) => headers.map((h) => esc(row[h])).join(','))].join('\n');
   const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });

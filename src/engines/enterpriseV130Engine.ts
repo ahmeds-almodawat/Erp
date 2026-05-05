@@ -5,7 +5,7 @@ function sum(rows: any[], selector: (row: any) => number) { return rows.reduce((
 export function money(value: number) { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'SAR', maximumFractionDigits: 0 }).format(Number.isFinite(value) ? value : 0); }
 export function pct(value: number) { return `${Math.round(value)}%`; }
 export function downloadCsv(filename: string, rows: Row[]) {
-  const headers = Array.from(rows.reduce((set, row) => { Object.keys(row).forEach((key) => set.add(key)); return set; }, new Set<string>()));
+const headers = Array.from(rows.reduce<Set<string>>((set, row) => { Object.keys(row).forEach((key) => set.add(key)); return set; }, new Set<string>()));
   const csv = [headers.join(','), ...rows.map((row) => headers.map((header) => `"${String(row[header] ?? '').replace(/"/g, '""')}"`).join(','))].join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);

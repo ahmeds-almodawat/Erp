@@ -3,7 +3,7 @@ function arr(value: any): any[] { return Array.isArray(value) ? value : []; }
 function num(value: any): number { return Number.isFinite(Number(value)) ? Number(value) : 0; }
 export function rowsToCsv(rows: Array<Record<string, any>>): string {
   if (!rows.length) return '';
-  const headers = Array.from(rows.reduce((set, row) => { Object.keys(row || {}).forEach((k) => set.add(k)); return set; }, new Set<string>()));
+  const headers = Array.from(rows.reduce<Set<string>>((set, row) => { Object.keys(row || {}).forEach((k) => set.add(k)); return set; }, new Set<string>()));
   const esc = (v: any) => `"${String(v ?? '').replace(/"/g, '""')}"`;
   return [headers.join(','), ...rows.map((row) => headers.map((h) => esc(row[h])).join(','))].join('\n');
 }

@@ -36,7 +36,7 @@ function Badge({ children, tone = 'info' }: { children: ReactNode; tone?: 'ready
 }
 function Table({ rows }: { rows: any[] }) {
   if (!rows.length) return <div className="notice">No rows</div>;
-  const headers = Array.from(rows.reduce((set, row) => { Object.keys(row || {}).forEach((key) => set.add(key)); return set; }, new Set<string>()));
+  const headers = Array.from(rows.reduce<Set<string>>((set, row) => { Object.keys(row || {}).forEach((key) => set.add(key)); return set; }, new Set<string>()));
   return <div className="v240-table"><table><thead><tr>{headers.map((h) => <th key={h}>{h}</th>)}</tr></thead><tbody>{rows.map((row, idx) => <tr key={idx}>{headers.map((h) => <td key={h}>{String(row?.[h] ?? '')}</td>)}</tr>)}</tbody></table></div>;
 }
 
