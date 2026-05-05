@@ -1,11 +1,14 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { safeLoad, safeSave } from '../utils/safeStorage';
-import FoodicsSalesPage from '../modules/FoodicsSalesPage';
-import EnterpriseV301Page from '../modules/EnterpriseV301Page';
 
 import { financeTabDefinitions, type FinanceTab } from '../modules/finance/financeTabs';
 import { evaluateFinanceTruthLayer, FINANCE_POSTING_CONTRACTS } from '../modules/finance/financeTruthLayer';
+
+const FoodicsSalesPage = lazy(() => import('../modules/FoodicsSalesPage'));
+const EnterpriseV301Page = lazy(() => import('../modules/EnterpriseV301Page'));
+const ImportStagingPanel = lazy(() => import('../modules/imports/ImportStagingPanel'));
+const ReportingTruthPanel = lazy(() => import('../modules/analytics/reportingTruth/ReportingTruthPanel'));
 
 import {
   Archive,
@@ -586,7 +589,7 @@ function AppShell() {
     hr: <HRPage state={state} update={update} locale={locale} />,
     imports: <ImportExportPage state={state} setState={setState} locale={locale} notify={notify} />,
     controls: <ControlCenterPage state={state} totals={totals} update={update} locale={locale} notify={notify} />,
-    enterprise: <EnterpriseV301Page state={state} totals={totals} update={update} locale={locale} notify={notify} />,
+    enterprise: <ModuleSuspense label={L(locale, 'Loading enterprise command', 'تحميل مركز المؤسسة')}><EnterpriseV301Page state={state} totals={totals} update={update} locale={locale} notify={notify} /></ModuleSuspense>,
     reports: <ReportsPage state={state} totals={totals} locale={locale} />,
   };
   const meta = routeMeta[route];
@@ -610,6 +613,7 @@ function Field({ label, children }: { label: string; children: ReactNode }) { re
 function KPI({ label, value, hint, icon }: { label: string; value: string; hint: string; icon: ReactNode }) { return <div className="kpi"><div className="kpi-icon">{icon}</div><div><span>{label}</span><strong>{value}</strong><small>{hint}</small></div></div>; }
 function Table({ headers, rows }: { headers: string[]; rows: ReactNode[][] }) { return <div className="table-wrap"><table><thead><tr>{headers.map((h) => <th key={h}>{h}</th>)}</tr></thead><tbody>{rows.length ? rows.map((r, i) => <tr key={i}>{r.map((c, ci) => <td key={ci}>{c}</td>)}</tr>) : <tr><td colSpan={headers.length}>—</td></tr>}</tbody></table></div>; }
 function TabButton<T extends string>({ active, value, onClick, children }: { active: T; value: T; onClick: (v: T) => void; children: ReactNode }) { return <button className={active === value ? 'active-tab' : ''} onClick={() => onClick(value)}>{children}</button>; }
+function ModuleSuspense({ label, children }: { label: string; children: ReactNode }) { return <Suspense fallback={<div className="notice">{label}</div>}>{children}</Suspense>; }
 function actionButtons(onEdit: () => void, onDelete: () => void, locale: Locale) { return <div className="button-row compact"><button onClick={onEdit}><Edit3 size={14}/>{L(locale, 'Edit', 'تعديل')}</button><button className="danger" onClick={onDelete}><Trash2 size={14}/>{L(locale, 'Deactivate', 'تعطيل')}</button></div>; }
 
 type ExecutiveChartDatum = { label: string; value: number; hint?: string };
@@ -1905,7 +1909,7 @@ function ProductionPage({ state, update, locale }: { state: ERPState; update: (f
 
 
 function SalesPage({ state, update, locale }: { state: ERPState; update: (fn: (s: ERPState) => ERPState, success?: string) => void; locale: Locale }) {
-  return <FoodicsSalesPage state={state} update={update as any} locale={locale} />;
+  return <ModuleSuspense label={L(locale, 'Loading sales workspace', 'تحميل مساحة المبيعات')}><FoodicsSalesPage state={state} update={update as any} locale={locale} /></ModuleSuspense>;
 }
 
 function ledgerLines(state: ERPState) {
@@ -2657,6 +2661,7 @@ function ImportExportPage({ state, setState, locale, notify }: { state: ERPState
     {tab === 'templates' && <Card title={L(locale, 'Download clean CSV templates', 'تحميل قوالب CSV نظيفة')} icon={<Download/>}><div className="template-grid">{(Object.keys(specs) as ImportKind[]).map((k) => <button key={k} onClick={() => downloadTemplate(k)}><FileSpreadsheet size={16}/>{L(locale, specs[k].en, specs[k].ar)}</button>)}</div></Card>}
     {tab === 'backup' && <div className="page-grid two"><Card title={L(locale, 'Local backup and restore', 'نسخ واستعادة محلية')} icon={<Database/>}><div className="button-row"><button onClick={() => saveFile(`restaurant-erp-backup-${today()}.json`, JSON.stringify(state, null, 2), 'application/json')}><Download size={16}/>{L(locale, 'Export JSON backup', 'تصدير نسخة JSON')}</button><label className="upload-button"><Upload size={16}/>{L(locale, 'Import JSON backup', 'استيراد نسخة JSON')}<input type="file" accept="application/json" onChange={(e) => e.target.files?.[0] && importJson(e.target.files[0])}/></label><button className="danger" onClick={() => { if (confirm(L(locale, 'Reset all local ERP data?', 'مسح كل بيانات النظام المحلية؟'))) { setState(addAudit(emptyState, 'reset', 'system', 'RESET', 'Local data cleared')); notify('warning', L(locale, 'All local data cleared', 'تم مسح جميع البيانات المحلية')); } }}><Trash2 size={16}/>{L(locale, 'Clear all data', 'مسح كل البيانات')}</button></div></Card><Card title={L(locale, 'Governance notes', 'ملاحظات حوكمة')} icon={<ShieldCheck/>}><Table headers={[L(locale, 'Control', 'الرقابة'), L(locale, 'Status', 'الحالة')]} rows={[[L(locale, 'Duplicate detection', 'كشف التكرار'), <StockPill tone="good">Local ready</StockPill>], [L(locale, 'Saved mapping templates', 'خرائط محفوظة'), <StockPill tone="good">Local ready</StockPill>], [L(locale, 'Rollback after posting', 'التراجع بعد الترحيل'), <StockPill tone="warn">Backend phase</StockPill>], [L(locale, 'Import approval', 'اعتماد الاستيراد'), <StockPill tone="info">Designed</StockPill>]]}/></Card></div>}
     {tab === 'history' && <div className="page-grid two"><Card title={L(locale, 'Saved mapping profiles', 'خرائط الربط المحفوظة')} icon={<Save/>}><Table headers={[L(locale, 'Profile', 'الخريطة'), L(locale, 'Type', 'النوع'), L(locale, 'File', 'الملف'), L(locale, 'Duplicate Key', 'مفتاح التكرار'), L(locale, 'Fields', 'الحقول')]} rows={state.importProfiles.map((p) => [p.name, p.importType, p.fileType.toUpperCase(), p.duplicateKey, Object.keys(p.mappings).length])}/></Card><Card title={L(locale, 'Recent import audit', 'آخر عمليات الاستيراد')} icon={<ClipboardCheck/>}><Table headers={[L(locale, 'Time', 'الوقت'), L(locale, 'Action', 'الإجراء'), L(locale, 'Entity', 'الكيان'), L(locale, 'Reference', 'المرجع'), L(locale, 'Note', 'ملاحظة')]} rows={state.audits.filter((a) => a.action === 'import').slice(0, 30).map((a) => [new Date(a.at).toLocaleString(), a.action, a.entity, a.ref, a.note])}/></Card></div>}
+    <ModuleSuspense label={L(locale, 'Loading import staging controls', 'تحميل ضوابط الاستيراد المرحلي')}><ImportStagingPanel /></ModuleSuspense>
   </div>;
 }
 
@@ -2803,6 +2808,12 @@ function ReportsPage({ state, totals, locale }: { state: ERPState; totals: Total
     { key: 'exceptions' as const, label: L(locale, 'Exceptions', 'الاستثناءات'), icon: <ShieldCheck size={16}/> },
   ];
 
+  const truthPeriod = {
+    start: fromDate || startOfYearIso(),
+    end: toDate || today(),
+    label: periodLabel(fromDate, toDate, locale),
+  };
+
   return <div className="page-grid report-workspace">
     <Card title={L(locale, 'Reports Center — period aware', 'مركز التقارير — حسب الفترة')} icon={<BarChart3/>} action={<button onClick={exportCurrent}><Download size={16}/>{L(locale, 'Export current period', 'تصدير الفترة الحالية')}</button>}>
       <div className="notice">{L(locale, 'Reports now support period filters. P&L, supplier spend, sales, COGS, and journals use the selected period. Inventory valuation is shown as-of the selected end date.', 'التقارير الآن تدعم تصفية الفترة. الربحية وإنفاق الموردين والمبيعات والتكلفة والقيود حسب الفترة المختارة، بينما تقييم المخزون يظهر حتى تاريخ نهاية الفترة.')}</div>
@@ -2830,6 +2841,7 @@ function ReportsPage({ state, totals, locale }: { state: ERPState; totals: Total
     {tab === 'menu' && <Card title={L(locale, 'Menu engineering for selected period', 'هندسة القائمة للفترة')} icon={<ChefHat/>}><Table headers={[L(locale, 'Menu Item', 'صنف البيع'), L(locale, 'Recipe Lines', 'بنود الوصفة'), L(locale, 'Sold Qty', 'كمية مباعة'), L(locale, 'Recipe Cost', 'تكلفة الوصفة'), L(locale, 'Net Price', 'السعر الصافي'), L(locale, 'Margin', 'الهامش'), L(locale, 'Food Cost %', 'نسبة التكلفة')]} rows={menuRows.map((r) => [L(locale, r.menu.nameEn, r.menu.nameAr), `${r.recipeLines}`, `${r.saleQty}`, safeMoney(r.cost), safeMoney(r.netUnit), safeMoney(r.margin), `${Number.isFinite(r.foodCostPct) ? r.foodCostPct.toFixed(1) : '0.0'}%`])}/></Card>}
 
     {tab === 'exceptions' && <Card title={L(locale, 'Report exceptions for selected period/as-of date', 'استثناءات التقارير للفترة/حتى التاريخ')} icon={<ShieldCheck/>}><Table headers={[L(locale, 'Area', 'المجال'), L(locale, 'Severity', 'الخطورة'), L(locale, 'Issue', 'المشكلة'), L(locale, 'Action', 'الإجراء')]} rows={exceptions.map((r) => [r.area, <StockPill tone={r.severity === 'critical' ? 'bad' : 'warn'}>{r.severity}</StockPill>, r.issue, r.action])}/></Card>}
+    <ModuleSuspense label={L(locale, 'Loading reporting truth layer', 'تحميل طبقة حقيقة التقارير')}><ReportingTruthPanel period={truthPeriod} /></ModuleSuspense>
   </div>;
 }
 

@@ -7,6 +7,7 @@ export type ImportSourceType =
   | "foodics_sales"
   | "foodics_payments"
   | "inventory_count"
+  | "purchase_invoices"
   | "custom_report";
 
 export type ImportStageStatus =

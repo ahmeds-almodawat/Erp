@@ -1,6 +1,6 @@
 {
-  "name": "restaurant-erp-v306-report-comparison-kpis",
-  "version": "1.0.6",
+  "name": "restaurant-erp-v313-reporting-truth",
+  "version": "1.0.13",
   "private": true,
   "type": "module",
   "scripts": {
@@ -20,7 +20,13 @@
     "qa:v303": "echo Review v303 executive dashboard: load trial scenario and verify finance, POS, inventory, purchasing, production, HR, and control KPIs",
     "qa:v304": "echo Review v304: Smart Analysis custom periods/colors plus Setup category dropdown/category library",
     "qa:v305": "echo Review v305: Smart Analysis visual polish, readable KPI text hierarchy, and balanced graph formatting",
-    "qa:v306": "echo Review v306: Foodics-style Smart Analysis sidebar, comparison packs, hourly/payment/product KPIs, and platform-wide finance/inventory/purchasing/production comparison"
+    "qa:v306": "echo Review v306: Foodics-style Smart Analysis sidebar, comparison packs, hourly/payment/product KPIs, and platform-wide finance/inventory/purchasing/production comparison",
+    "qa:v311:domain": "node --experimental-strip-types --import ./scripts/register-ts-extension-loader.mjs scripts/qa-v311-posting.mjs",
+    "qa:v312": "echo Review v312: Import / Export staging panel plus mapping, approval, duplicate hash, cutover, and rollback rules",
+    "qa:v313": "echo Review v313: Reports truth layer panel plus reporting score, sources, findings, and backend snapshot readiness",
+    "qa:v313:domain": "node --experimental-strip-types --import ./scripts/register-ts-extension-loader.mjs scripts/qa-v312-v313.mjs",
+    "qa:domain": "npm run qa:v311:domain && npm run qa:v313:domain",
+    "qa:local": "npm run qa:domain && npm run typecheck && npm run build"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.1",
